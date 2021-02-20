@@ -1,7 +1,7 @@
 {
-  "name": "place.it",
+  "name": "yourhandwritingsucks",
   "version": "1.0.0",
-  "description": "Envision the Best Future For Your City",
+  "description": "Improve your handwriting",
   "dependencies": {
     "@useoptic/cli": "^7.0.10",
     "dotenv": "^8.2.0",
@@ -10,16 +10,13 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo Testing Not Implemented",
-    "start": "cp -rf ./.env backend/ && cd backend && npm install && npm start"
+    "start": "cp -rf ./.env backend/ && cd backend && yarn install && yarn start"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gits-lit/place.it.git"
+    "url": "git+https://github.com/trulyronak/yourhandwritingsucks"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gits-lit/place.it/issues"
-  },
-  "homepage": "https://github.com/gits-lit/place.it#readme"
+  "bugs": {}
 }

@@ -1,52 +1,46 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useRef, useState } from "react";
+import CanvasDraw from "react-canvas-draw";
 
-import logo from '../../assets/logo.svg';
-import building_1 from '../../assets/building_1.svg';
-import wavy_left from '../../assets/wavy_left.svg';
-import wavy_right from '../../assets/wavy_right.svg';
-
-import './style.less';
+import "./style.less";
 
 const Home = () => {
+  const canvas = useRef(null);
+  const [imageSrc, setImage] = useState("https://via.placeholder.com/200");
+  const [visible, setVisibility] = useState("none");
+  
+  const getImageData = () => {
+    console.log(canvas.current)
+    const can = canvas.current.ctx.drawing.canvas;
+    const img = new Image();
+    img.src = can.toDataURL();
+    setImage(img.src)
+    setVisibility("block")
+  };
+
   return (
-    <>
-      <nav className="home-nav-bar">
-        <NavLink to="/">
-          <p>about us</p>
-        </NavLink>
-        <NavLink to="/">
-          <p>blog</p>
-        </NavLink>
-        <img src={logo} alt="logo" />
-        <NavLink to="/">
-          <p>contact us</p>
-        </NavLink>
-        <NavLink to="/">
-          <p className="button">Sign Up</p>
-        </NavLink>
-      </nav>
-      <div className="home-page">
-        <div className="item-wrapper">
-          <div className="text">
-            <p>Envision the Best Future For Your City</p>
-            <h1>Urban Planning</h1>
-            <h1>　　　　Done Right</h1>
-            <div className="buttons">
-              <NavLink to="/signup">
-                <div className="home-button">Sign Up</div>
-              </NavLink>
-              <NavLink to="/map">
-                <div className="home-button">Try Demo</div>
-              </NavLink>
-            </div>
-          </div>
-          <img className="building_1" src={building_1} alt="building" />
-        </div>
-        <img className="wLeft" src={wavy_left} alt="wavy_1" />
-        <img className="wRight" src={wavy_right} alt="wavy_2" />
+    <div className="container">
+      <div className="centerContent">
+        <p className="title">your handwriting sucks.com</p>
       </div>
-    </>
+
+      <div className="centerContent">
+        <CanvasDraw ref={canvas} canvasWidth={window.innerWidth * 0.8} />
+      </div>
+      <div className="centerContent">
+        <div className="toolbar">
+          <button onClick={() => {
+            if (canvas) {
+              canvas.current.clear()
+            }
+          }}>Clear</button>
+          <button onClick={() => {}}>Upload a sample instead</button>
+          <button onClick={getImageData}>Judge Me</button>
+        </div>
+      </div>
+      
+      <h1 style={{display: visible}}>Your Drawing</h1> 
+      <img style={{display: visible}} src={imageSrc}></img> 
+    </div>
   );
 };
 
