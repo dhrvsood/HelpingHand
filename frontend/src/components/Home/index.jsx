@@ -6,21 +6,43 @@ import "./style.less";
 
 const Home = () => {
   const canvas = useRef(null);
-  const [imageSrc, setImage] = useState("https://via.placeholder.com/200");
+  const [insights, setInsights] = useState("");
   const [visible, setVisibility] = useState("none");
+  const fileUpload = useRef(null);
 
-  const getImageData = () => {
-    console.log(canvas.current);
-    const can = canvas.current.ctx.drawing.canvas;
-    const img = new Image();
-    img.src = can.toDataURL();
+  const selectFile = () => {
+    fileUpload.current.click();
+  };
+
+  const toBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const getImageData = async () => {
+    let imageData;
+
+    if (fileUpload.current.files.length > 0) {
+      const file = fileUpload.current.files[0];
+      imageData = await toBase64(file);
+    } else {
+      const can = canvas.current.ctx.drawing.canvas;
+      const img = new Image();
+      img.src = can.toDataURL();
+      imageData = img.src;
+    }
 
     axios
       .post(`${config.apiUrl}/insight`, {
-        data: img.src,
+        data: imageData,
       })
       .then((response) => {
-        setImage(response.data.status.data);
+        console.log(response.data);
+        setInsights(JSON.stringify(response.data, null, 4));
         setVisibility("block");
       });
   };
@@ -45,13 +67,19 @@ const Home = () => {
           >
             Clear
           </button>
-          <button onClick={() => {}}>Upload a sample instead</button>
+          <button onClick={selectFile}>Upload a sample instead</button>
+          <input
+            style={{ display: "none" }}
+            type="file"
+            onChange={() => {}}
+            ref={fileUpload}
+          />
           <button onClick={getImageData}>Judge Me</button>
         </div>
       </div>
 
-      <h1 style={{ display: visible }}>Your Drawing</h1>
-      <img style={{ display: visible, width: "1000px", height: "1000px" }} src={imageSrc}></img>
+      <h1 style={{ display: visible }}>Backend Response</h1>
+      <pre>{insights}</pre>
     </div>
   );
 };

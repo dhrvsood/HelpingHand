@@ -15,6 +15,7 @@ FOLDER_PATH = 'text_images'
 with io.open(os.path.join(FOLDER_PATH, FILE_NAME), 'rb') as image_file:
     content = image_file.read()
 
+
 image = types.Image(content=content)
 
 response = client.text_detection(image=image)
@@ -48,4 +49,3 @@ df = pd.DataFrame({'char': char_list, 'bound_poly': bound_poly})
 #         ),
 #         ignore_index=True
 #     )
-
