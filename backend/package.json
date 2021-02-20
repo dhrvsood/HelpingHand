@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run documentation & node ./bin/www",
+    "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "documentation": "./node_modules/@useoptic/cli/bin/run spec",
-    "heroku": "../node_modules/@useoptic/cli/bin/run spec &   node ./bin/www"
+    "heroku": "node ./bin/www"
   },
   "dependencies": {
     "async": "^3.2.0",
