@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Improve your handwriting",
   "dependencies": {
-    "@useoptic/cli": "^7.0.10",
     "dotenv": "^8.2.0",
     "request": "^2.88.2"
   },
