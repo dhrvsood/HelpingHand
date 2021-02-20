@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npm run documentation & node ./bin/www",
+    "dev": "nodemon ./bin/www",
+    "documentation": "./node_modules/@useoptic/cli/bin/run spec",
+    "heroku": "../node_modules/@useoptic/cli/bin/run spec &   node ./bin/www"
+  },
+  "dependencies": {
+    "async": "^3.2.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11",
+    "spotcrime": "^2.0.1"
+  },
+  "devDependencies": {
+    "@useoptic/cli": "^7.0.10",
+    "nodemon": "^2.0.2"
+  }
+}

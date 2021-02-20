@@ -1,0 +1,38 @@
+{
+  "Office Building": {
+    "color": "#EE7474",
+    "image": "office-building.svg"
+  },
+  "Family House": {
+    "color": "#C989FB",
+    "image": "family-house.svg"
+  },
+  "Retail Store": {
+    "color": "#7EEEB0",
+    "image": "retail-store.svg"
+  },
+  "Industrial": {
+    "color": "#8FDAF2",
+    "image": "industrial.svg"
+  },
+  "Mixed Use": {
+    "color": "#63C6BA",
+    "image": "mixed-use.svg"
+  },
+  "Public": {
+    "color": "#FFFA77",
+    "image": "public.svg"
+  },
+  "Residential": {
+    "color": "#FFD08A",
+    "image": "residential.svg"
+  },
+  "Commercial": {
+    "color": "#E2A8EC",
+    "image": "commercial.svg"
+  },
+  "Misc.": {
+    "color": "#D1D1D1",
+    "image": "misc.svg"
+  }
+}
