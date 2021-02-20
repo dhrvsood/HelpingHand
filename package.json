@@ -10,7 +10,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo Testing Not Implemented",
-    "start": "cp -rf ./.env backend/ && cd backend && yarn install && yarn start"
+    "start": "yarn --cwd backend start & yarn --cwd frontend start",
+    "setup" : "yarn --cwd backend install && yarn --cwd frontend install"
   },
   "repository": {
     "type": "git",
