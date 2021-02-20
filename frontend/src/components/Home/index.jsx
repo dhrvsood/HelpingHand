@@ -1,20 +1,28 @@
 import React, { useRef, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
-
+import axios from "axios";
+import { config } from "../../config";
 import "./style.less";
 
 const Home = () => {
   const canvas = useRef(null);
   const [imageSrc, setImage] = useState("https://via.placeholder.com/200");
   const [visible, setVisibility] = useState("none");
-  
+
   const getImageData = () => {
-    console.log(canvas.current)
+    console.log(canvas.current);
     const can = canvas.current.ctx.drawing.canvas;
     const img = new Image();
     img.src = can.toDataURL();
-    setImage(img.src)
-    setVisibility("block")
+
+    axios
+      .post(`${config.apiUrl}/insight`, {
+        data: img.src,
+      })
+      .then((response) => {
+        setImage(response.data.status.data);
+        setVisibility("block");
+      });
   };
 
   return (
@@ -28,18 +36,22 @@ const Home = () => {
       </div>
       <div className="centerContent">
         <div className="toolbar">
-          <button onClick={() => {
-            if (canvas) {
-              canvas.current.clear()
-            }
-          }}>Clear</button>
+          <button
+            onClick={() => {
+              if (canvas) {
+                canvas.current.clear();
+              }
+            }}
+          >
+            Clear
+          </button>
           <button onClick={() => {}}>Upload a sample instead</button>
           <button onClick={getImageData}>Judge Me</button>
         </div>
       </div>
-      
-      <h1 style={{display: visible}}>Your Drawing</h1> 
-      <img style={{display: visible}} src={imageSrc}></img> 
+
+      <h1 style={{ display: visible }}>Your Drawing</h1>
+      <img style={{ display: visible, width: "1000px", height: "1000px" }} src={imageSrc}></img>
     </div>
   );
 };
