@@ -1,9 +1,10 @@
 import React, { useRef, useState, useContext } from "react";
 import Plot from 'react-plotly.js';
-import "./style.less";
+// import "./style.less";
 
 // components
 import InsightContext from "../contexts/InsightContext";
+import Graph from "../components/Graph";
 
 const Insight = () => {
   const [insights] = useContext(InsightContext);
@@ -15,19 +16,16 @@ const Insight = () => {
   return (
     
     <div className="container">
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        <p className="header">Insights</p>
-        <pre>
-          {/* {JSON.stringify(insights, null, 4)} */}
-        </pre>
-        {/* <img src={insights.image}/> */}
-        
-        <Plot
-        data={[
-          {type: 'histogram', x: arr}
-        ]}
-        layout={ {width: 500, height: 500, title: 'A Fancy Plot'} }
-      />
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+      <p className="header">Insights</p>
+      <div className="grid-container">
+        <Graph type="histogram" data={arr} title="Graph 1" className="grid-item"></Graph>
+        <Graph type="histogram" data={arr} title="Graph 2" className="grid-item"></Graph>
+        <Graph type="histogram" data={arr} title="Graph 3" className="grid-item"></Graph>
+        <Graph type="histogram" data={arr} title="Graph 4" className="grid-item"></Graph>
+        {/* <Graph type="" data="" title="" className="grid-item"></Graph>
+        <Graph type="" data="" title="" className="grid-item"></Graph> */}
+      </div>
     </div>
   );
 };
