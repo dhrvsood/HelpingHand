@@ -32,7 +32,7 @@ const Input = () => {
   };
 
   const getImageData = async () => {
-    if (fileUpload.current.files.length > 0) {
+    if (fileUpload.current && fileUpload.current.files.length > 0) {
       const file = fileUpload.current.files[0];
       imageData = await toBase64(file);
     } else {
