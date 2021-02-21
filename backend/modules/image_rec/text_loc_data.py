@@ -1,3 +1,5 @@
+# how to run locally
+# python text_loc_data.py $(cat ../../debugcommand.txt)
 import base64
 import json
 import math
@@ -282,9 +284,12 @@ try: # ez error handling
         return score_str
 
 
-    # print(eval_lower_letter_width())
-    # print(eval_upper_letter_width())
-    res = {'lower_eval': eval_lower_letter_width(), 'upper_eval': eval_upper_letter_width()}
+    # Make sure defaultValue.responseData matches
+    # frontend/src/contexts/InsightContext.js
+    res = {
+        'lower_eval': eval_lower_letter_width(), 
+        'upper_eval': eval_upper_letter_width()
+    }
     print(json.dumps(res))
 
 except:
