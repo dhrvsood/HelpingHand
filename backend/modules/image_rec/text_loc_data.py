@@ -8,7 +8,7 @@ import os
 import re
 import sys
 import warnings
-
+from urllib.parse import quote
 import cv2
 import numpy as np
 import pandas as pd
@@ -29,11 +29,11 @@ FILE_NAME = 'debugImage.png'
 FOLDER_PATH = 'text_images'
 
 
-def data_uri_to_cv2_img(uri):
-    encoded_data = uri.split(',')[1]
-    nparr = np.fromstring(encoded_data.decode('base64'), np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    return img
+def readb64(data):
+   nparr = np.fromstring(base64.b64decode(data), np.uint8)
+   img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+   # print(type(img)) # <class 'numpy.ndarray'>
+   return img
 
 
 def load_in_from_cli():
@@ -42,7 +42,8 @@ def load_in_from_cli():
 
     with open("debugcommand.txt", "w") as file:
         file.write(raw_data)
-    img = data_uri_to_cv2_img(raw_data)
+
+    img = readb64(image_data)
     content = base64.b64decode(image_data)
 
     with open("debugImage.png", "wb") as fh:  # saves to backend/debugImage.png
@@ -305,5 +306,10 @@ try:  # ez error handling
     }
     print(json.dumps(res))
 
-except:
-    print(json.dumps({'status': 'failed'}))
+except Exception as e:
+
+    res = {
+        'status' : 'failed',
+        'reason' : (str(e))
+    }
+    print(json.dumps(res))
