@@ -21,7 +21,7 @@ module.exports = async function (...arguments) {
 
     try {
       let data = (await getPythonData).toString();
-      resolve(JSON.parse(data));
+      resolve((data));
     } catch (err) {
       console.log(err);
       resolve({

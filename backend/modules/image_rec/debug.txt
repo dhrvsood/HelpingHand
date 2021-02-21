@@ -1,0 +1,200 @@
+text_annotations {
+  locale: "und"
+  description: "hope\n"
+  bounding_poly {
+    vertices {
+      x: 85
+      y: 113
+    }
+    vertices {
+      x: 454
+      y: 113
+    }
+    vertices {
+      x: 454
+      y: 386
+    }
+    vertices {
+      x: 85
+      y: 386
+    }
+  }
+}
+text_annotations {
+  description: "hope"
+  bounding_poly {
+    vertices {
+      x: 109
+      y: 113
+    }
+    vertices {
+      x: 454
+      y: 148
+    }
+    vertices {
+      x: 430
+      y: 386
+    }
+    vertices {
+      x: 85
+      y: 351
+    }
+  }
+}
+full_text_annotation {
+  pages {
+    width: 1505
+    height: 400
+    blocks {
+      bounding_box {
+        vertices {
+          x: 109
+          y: 113
+        }
+        vertices {
+          x: 454
+          y: 148
+        }
+        vertices {
+          x: 430
+          y: 386
+        }
+        vertices {
+          x: 85
+          y: 351
+        }
+      }
+      paragraphs {
+        bounding_box {
+          vertices {
+            x: 109
+            y: 113
+          }
+          vertices {
+            x: 454
+            y: 148
+          }
+          vertices {
+            x: 430
+            y: 386
+          }
+          vertices {
+            x: 85
+            y: 351
+          }
+        }
+        words {
+          bounding_box {
+            vertices {
+              x: 109
+              y: 113
+            }
+            vertices {
+              x: 454
+              y: 148
+            }
+            vertices {
+              x: 430
+              y: 386
+            }
+            vertices {
+              x: 85
+              y: 351
+            }
+          }
+          symbols {
+            bounding_box {
+              vertices {
+                x: 109
+                y: 113
+              }
+              vertices {
+                x: 207
+                y: 123
+              }
+              vertices {
+                x: 189
+                y: 305
+              }
+              vertices {
+                x: 90
+                y: 295
+              }
+            }
+            text: "h"
+          }
+          symbols {
+            bounding_box {
+              vertices {
+                x: 221
+                y: 237
+              }
+              vertices {
+                x: 288
+                y: 244
+              }
+              vertices {
+                x: 280
+                y: 318
+              }
+              vertices {
+                x: 213
+                y: 312
+              }
+            }
+            text: "o"
+          }
+          symbols {
+            bounding_box {
+              vertices {
+                x: 294
+                y: 228
+              }
+              vertices {
+                x: 345
+                y: 233
+              }
+              vertices {
+                x: 330
+                y: 375
+              }
+              vertices {
+                x: 279
+                y: 370
+              }
+            }
+            text: "p"
+          }
+          symbols {
+            property {
+              detected_break {
+                type_: LINE_BREAK
+              }
+            }
+            bounding_box {
+              vertices {
+                x: 367
+                y: 228
+              }
+              vertices {
+                x: 446
+                y: 236
+              }
+              vertices {
+                x: 439
+                y: 303
+              }
+              vertices {
+                x: 360
+                y: 295
+              }
+            }
+            text: "e"
+          }
+        }
+      }
+      block_type: TEXT
+    }
+  }
+  text: "hope\n"
+}

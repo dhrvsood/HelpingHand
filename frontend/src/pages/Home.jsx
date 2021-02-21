@@ -38,7 +38,7 @@ const Home = () => {
             ref={fileUpload}
           />
         </div>
-        <Input/>
+        <Input fileUpload={fileUpload}/>
         <hr></hr>
         <p>Built in 36 hours at SD Hacks 2021.</p>
     </div>

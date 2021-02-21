@@ -8,11 +8,10 @@ import { NONAME } from "dns";
 
 // import "style.less";
 
-const Input = () => {
+const Input = ({fileUpload}) => {
   const canvas = useRef(null);
   const [insights, setInsights] = useState("");
   const [visible, setVisibility] = useState("none");
-  const fileUpload = useRef(null);
   const [insightsCtx, setInsightsCtx] = useContext(InsightContext);
   let imageData;
   const history = useHistory();
@@ -48,7 +47,7 @@ const Input = () => {
       .then((response) => {
         // pass data to global insights context
         setInsightsCtx({
-          responseData: response.data,
+          responseData: JSON.parse(response.data),
           image: imageData
         });
 

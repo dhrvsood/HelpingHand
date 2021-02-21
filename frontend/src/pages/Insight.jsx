@@ -10,7 +10,7 @@ const Insight = () => {
     <div className="container">
         <p className="header">Insights</p>
         <pre>
-          {JSON.stringify(insights)}
+          {JSON.stringify(insights, null, 4)}
         </pre>
         <img src={insights.image}/>
     </div>

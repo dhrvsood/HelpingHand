@@ -1,0 +1,221 @@
+text_annotations {
+  locale: "und"
+  description: "Ronak\n"
+  bounding_poly {
+    vertices {
+      x: 211
+      y: 68
+    }
+    vertices {
+      x: 795
+      y: 68
+    }
+    vertices {
+      x: 795
+      y: 283
+    }
+    vertices {
+      x: 211
+      y: 283
+    }
+  }
+}
+text_annotations {
+  description: "Ronak"
+  bounding_poly {
+    vertices {
+      x: 212
+      y: 68
+    }
+    vertices {
+      x: 795
+      y: 72
+    }
+    vertices {
+      x: 794
+      y: 283
+    }
+    vertices {
+      x: 211
+      y: 279
+    }
+  }
+}
+full_text_annotation {
+  pages {
+    width: 1505
+    height: 400
+    blocks {
+      bounding_box {
+        vertices {
+          x: 212
+          y: 68
+        }
+        vertices {
+          x: 795
+          y: 72
+        }
+        vertices {
+          x: 794
+          y: 283
+        }
+        vertices {
+          x: 211
+          y: 279
+        }
+      }
+      paragraphs {
+        bounding_box {
+          vertices {
+            x: 212
+            y: 68
+          }
+          vertices {
+            x: 795
+            y: 72
+          }
+          vertices {
+            x: 794
+            y: 283
+          }
+          vertices {
+            x: 211
+            y: 279
+          }
+        }
+        words {
+          bounding_box {
+            vertices {
+              x: 212
+              y: 68
+            }
+            vertices {
+              x: 795
+              y: 72
+            }
+            vertices {
+              x: 794
+              y: 283
+            }
+            vertices {
+              x: 211
+              y: 279
+            }
+          }
+          symbols {
+            bounding_box {
+              vertices {
+                x: 212
+                y: 68
+              }
+              vertices {
+                x: 435
+                y: 70
+              }
+              vertices {
+                x: 434
+                y: 280
+              }
+              vertices {
+                x: 211
+                y: 279
+              }
+            }
+            text: "R"
+          }
+          symbols {
+            bounding_box {
+              vertices {
+                x: 436
+                y: 70
+              }
+              vertices {
+                x: 547
+                y: 71
+              }
+              vertices {
+                x: 546
+                y: 282
+              }
+              vertices {
+                x: 435
+                y: 281
+              }
+            }
+            text: "o"
+          }
+          symbols {
+            bounding_box {
+              vertices {
+                x: 548
+                y: 70
+              }
+              vertices {
+                x: 587
+                y: 70
+              }
+              vertices {
+                x: 586
+                y: 281
+              }
+              vertices {
+                x: 547
+                y: 281
+              }
+            }
+            text: "n"
+          }
+          symbols {
+            bounding_box {
+              vertices {
+                x: 588
+                y: 71
+              }
+              vertices {
+                x: 659
+                y: 71
+              }
+              vertices {
+                x: 658
+                y: 282
+              }
+              vertices {
+                x: 587
+                y: 282
+              }
+            }
+            text: "a"
+          }
+          symbols {
+            property {
+              detected_break {
+                type_: LINE_BREAK
+              }
+            }
+            bounding_box {
+              vertices {
+                x: 660
+                y: 71
+              }
+              vertices {
+                x: 795
+                y: 72
+              }
+              vertices {
+                x: 794
+                y: 283
+              }
+              vertices {
+                x: 659
+                y: 282
+              }
+            }
+            text: "k"
+          }
+        }
+      }
+      block_type: TEXT
+    }
+  }
+  text: "Ronak\n"
+}
