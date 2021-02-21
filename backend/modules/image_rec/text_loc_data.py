@@ -1,11 +1,8 @@
 import io
 import math
 import os
-import re
-import sys
 
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from deskew import determine_skew
@@ -16,8 +13,8 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'ServiceAccountToken.json'
 
 client = vision.ImageAnnotatorClient()
 
-raw_data = sys.argv[1]
-image_data = re.sub('^data:image/.+;base64,', '', raw_data)
+# raw_data = sys.argv[1]
+# image_data = re.sub('^data:image/.+;base64,', '', raw_data)
 
 FILE_NAME = 'demo1.jpeg'
 FOLDER_PATH = 'text_images'
@@ -181,14 +178,75 @@ df['h'] = df[['y_2', 'y_3']].max(axis=1) - df[['y_1', 'y_4']].min(axis=1)
 # -- WIDTH OF CHARACTERS -- #
 def score_width(df):
     thin_chars = ['!', '(', ')', '[', ']', '-', '=', '+', ',', '.', '|',
-                  '{', '}', 't', 'i', 'f', 'l', ';', ':', "'", '"', '*']
+                  '{', '}', 't', 'i', 'f', 'l', ';', ':', "'", '"', '*',
+                  'I']
     normal_chars = ['@', '#', '$', '%', '^', '&', 'q', 'e', 'r', 'y', 'u',
                     'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'z',
-                    'x', 'c', 'v', 'b', 'n', '/', '\\']
-    wide_chars = ['w', 'm']
+                    'x', 'c', 'v', 'b', 'n', '/', '\\', 'Q', 'E', 'R', 'T',
+                    'Y', 'U', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J',
+                    'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N']
+    wide_chars = ['w', 'm', 'W', 'M']
+
     df_thin = df[df['char'].isin(thin_chars)]
-    thin_w = df_thin.width
-    plt.hist(thin_w)
+    df_normal = df[df['char'].isin(normal_chars)]
+    df_wide = df[df['char'].isin(wide_chars)]
+    thin_w = df_thin.w
+    normal_w = df_normal.w
+    wide_w = df_wide.w
+
+    def calc_score(srs):
+        if len(srs) > 1:
+            ideal_width = np.median(srs)
+            thresh = 1.5 * np.sqrt(1 / len(srs) * sum(
+                (srs - ideal_width) ** 2))
+            neg_thresh, pos_thresh = ideal_width - thresh, ideal_width + thresh
+            between = srs.between(neg_thresh, pos_thresh, inclusive=True)
+            score = round(len(between[between == True]) / len(srs), 2)
+            if score == 0:
+                score += 0.001
+            return score
+        elif len(srs) == 0:
+            return 0
+        else:
+            return 1
+
+    thin_score = calc_score(thin_w)
+    normal_score = calc_score(normal_w)
+    wide_score = calc_score(wide_w)
+
+    return round(np.mean([s for s in [
+        thin_score, normal_score, wide_score] if s != 0]), 2)
 
 
-print(score_width(df))
+def eval_lower_letter_width():
+    lower_case_width_score = score_width(df[df['is_upper'] == False])
+    score_str = f'Your lower-case letter-width consistency ' \
+                f'score is: {lower_case_width_score}.'
+    if lower_case_width_score <= 0.4:
+        score_str += ' Make the widths of your lower-case letters ' \
+                     'more consistent.'
+    elif 0.4 < lower_case_width_score <= 0.8:
+        score_str += ' Your lower-case width consistency is alright. ' \
+                     'Keep improving!'
+    else:
+        score_str += ' Great lower-case width consistency!'
+    return score_str
+
+
+def eval_upper_letter_width():
+    upper_case_width_score = score_width(df[df['is_upper'] == True])
+    score_str = f'Your lower-case letter-width consistency ' \
+                f'score is: {upper_case_width_score}.'
+    if upper_case_width_score <= 0.4:
+        score_str += ' Make the widths of your upper-case letters ' \
+                     'more consistent.'
+    elif 0.4 < upper_case_width_score <= 0.8:
+        score_str += ' Your upper-case width consistency is alright. ' \
+                     'Keep improving!'
+    else:
+        score_str += ' Great upper-case width consistency!'
+    return score_str
+
+
+print(eval_lower_letter_width())
+print(eval_upper_letter_width())
