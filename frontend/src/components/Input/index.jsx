@@ -1,10 +1,9 @@
-import React, { useContext, useRef, useState } from "react";
+import React, {useContext, useRef, useState} from "react";
 import CanvasDraw from "react-canvas-draw";
 import axios from "axios";
-import { config } from "../../config";
+import {config} from "../../config";
 import InsightContext from "../../contexts/InsightContext";
-import { useHistory } from "react-router-dom";
-import { NONAME } from "dns";
+import {useHistory} from "react-router-dom";
 
 // import "style.less";
 
@@ -46,6 +45,7 @@ const Input = ({fileUpload}) => {
       })
       .then((response) => {
         // pass data to global insights context
+        console.log(response.data)
         setInsightsCtx({
           responseData: JSON.parse(response.data),
           image: imageData

@@ -1,19 +1,21 @@
 # how to run locally
 # python text_loc_data.py $(cat ../../debugcommand.txt)
 import base64
+import io
 import json
 import math
 import os
 import re
 import sys
-import io
+import warnings
+
 import cv2
 import numpy as np
 import pandas as pd
+from deskew import determine_skew
 from google.cloud import vision
 from google.cloud.vision_v1 import types
-import binascii
-import warnings
+
 warnings.filterwarnings("ignore")
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'ServiceAccountToken.json'
@@ -21,6 +23,18 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'ServiceAccountToken.json'
 client = vision.ImageAnnotatorClient()
 
 content = ""
+img = ""
+
+FILE_NAME = 'debugImage.png'
+FOLDER_PATH = 'text_images'
+
+
+def data_uri_to_cv2_img(uri):
+    encoded_data = uri.split(',')[1]
+    nparr = np.fromstring(encoded_data.decode('base64'), np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    return img
+
 
 def load_in_from_cli():
     raw_data = sys.argv[1]
@@ -28,23 +42,22 @@ def load_in_from_cli():
 
     with open("debugcommand.txt", "w") as file:
         file.write(raw_data)
-
+    img = data_uri_to_cv2_img(raw_data)
     content = base64.b64decode(image_data)
 
     with open("debugImage.png", "wb") as fh:  # saves to backend/debugImage.png
         fh.write(content)
     return content
 
-def get_old_content():
-    FILE_NAME = 'debugImage.png'
-    FOLDER_PATH = 'text_images'
 
+def get_old_content():
     # Read original image
     with io.open(os.path.join(FOLDER_PATH, FILE_NAME), 'rb') as image_file:
         content = image_file.read()
     return content
 
-try: # ez error handling
+
+try:  # ez error handling
     # if we have cli, load it - otherwise use the directories and whatnot
     cli_mode = len(sys.argv) > 1
     if (cli_mode):
@@ -56,7 +69,7 @@ try: # ez error handling
 
     response = client.text_detection(image=image)
 
-    if (not cli_mode):
+    if not cli_mode:
         print(response)
 
     with open('debug.txt', 'w') as file:
@@ -82,23 +95,22 @@ try: # ez error handling
             round(height)), int(round(width))), borderValue=bkg)
 
 
-    # img = cv2.imread(os.path.join(FOLDER_PATH, FILE_NAME))
-    # grayscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    # angle = determine_skew(grayscale)
+    grayscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    angle = determine_skew(grayscale)
 
     # Deskewed image
-    # rotated = deskew(img, angle, (0, 0, 0))
+    rotated = deskew(img, angle, (0, 0, 0))
 
-    # if bound_height > bound_width:
-    #     rotated = np.rot90(rotated)
-    #
-    # deskewed_fname = os.path.join(FOLDER_PATH, ('deskewed_' + FILE_NAME + '.png'))
-    # cv2.imwrite(deskewed_fname, rotated)
-    #
-    # with io.open(deskewed_fname, 'rb') as image_file:
-    #     content = image_file.read()
+    if bound_height > bound_width:
+        rotated = np.rot90(rotated)
 
-    # image = types.Image(content=content)
+    deskewed_fname = os.path.join(FOLDER_PATH, ('deskewed_' + FILE_NAME + '.png'))
+    cv2.imwrite(deskewed_fname, rotated)
+
+    with io.open(deskewed_fname, 'rb') as image_file:
+        content = image_file.read()
+
+    image = types.Image(content=content)
     response = client.text_detection(image=image)
 
     blocks = response.text_annotations[1:]
@@ -214,8 +226,8 @@ try: # ez error handling
     # -- WIDTH OF CHARACTERS -- #
     def score_width(df):
         thin_chars = ['!', '(', ')', '[', ']', '-', '=', '+', ',', '.', '|',
-                    '{', '}', 't', 'i', 'f', 'l', ';', ':', "'", '"', '*',
-                    'I']
+                      '{', '}', 't', 'i', 'f', 'l', ';', ':', "'", '"', '*',
+                      'I']
         normal_chars = ['@', '#', '$', '%', '^', '&', 'q', 'e', 'r', 'y', 'u',
                         'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'z',
                         'x', 'c', 'v', 'b', 'n', '/', '\\', 'Q', 'E', 'R', 'T',
@@ -260,10 +272,10 @@ try: # ez error handling
                     f'score is: {lower_case_width_score}.'
         if lower_case_width_score <= 0.4:
             score_str += ' Make the widths of your lower-case letters ' \
-                        'more consistent.'
+                         'more consistent.'
         elif 0.4 < lower_case_width_score <= 0.8:
             score_str += ' Your lower-case width consistency is alright. ' \
-                        'Keep improving!'
+                         'Keep improving!'
         else:
             score_str += ' Great lower-case width consistency!'
         return score_str
@@ -275,10 +287,10 @@ try: # ez error handling
                     f'score is: {upper_case_width_score}.'
         if upper_case_width_score <= 0.4:
             score_str += ' Make the widths of your upper-case letters ' \
-                        'more consistent.'
+                         'more consistent.'
         elif 0.4 < upper_case_width_score <= 0.8:
             score_str += ' Your upper-case width consistency is alright. ' \
-                        'Keep improving!'
+                         'Keep improving!'
         else:
             score_str += ' Great upper-case width consistency!'
         return score_str
@@ -287,10 +299,11 @@ try: # ez error handling
     # Make sure defaultValue.responseData matches
     # frontend/src/contexts/InsightContext.js
     res = {
-        'lower_eval': eval_lower_letter_width(), 
-        'upper_eval': eval_upper_letter_width()
+        'status': 'success',
+        'lower_eval': eval_lower_letter_width(),
+        'upper_eval': eval_upper_letter_width(),
     }
     print(json.dumps(res))
 
 except:
-    print("something went wrong. please try again")
+    print(json.dumps({'status': 'failed'}))
