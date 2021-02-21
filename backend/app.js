@@ -19,6 +19,7 @@ app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ extended: false, limit: "100mb" }));
 app.use(cookieParser());
 
+app.use(express.static("../frontend/build"))
 app.use("/", indexRouter);
 app.use("/insight", insightRouter);
 
