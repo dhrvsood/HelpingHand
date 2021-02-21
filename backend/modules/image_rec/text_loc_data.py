@@ -1,6 +1,8 @@
 import io
 import math
 import os
+import re
+import sys
 
 import cv2
 import matplotlib.pyplot as plt
@@ -13,6 +15,9 @@ from google.cloud.vision_v1 import types
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'ServiceAccountToken.json'
 
 client = vision.ImageAnnotatorClient()
+
+raw_data = sys.argv[1]
+image_data = re.sub('^data:image/.+;base64,', '', raw_data)
 
 FILE_NAME = 'demo1.jpeg'
 FOLDER_PATH = 'text_images'

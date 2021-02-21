@@ -6,7 +6,7 @@ module.exports = async function (...arguments) {
     let getPythonData = new Promise((success, nosuccess) => {
       const { spawn } = require("child_process");
       const pyprog = spawn("python", [
-        "./modules/myaithingy/main.py",
+        "./modules/image_rec/text_loc_data.py",
         ...arguments,
       ]);
 
