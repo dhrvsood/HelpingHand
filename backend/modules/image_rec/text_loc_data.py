@@ -3,6 +3,7 @@ import math
 import os
 
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from deskew import determine_skew
@@ -16,6 +17,7 @@ client = vision.ImageAnnotatorClient()
 FILE_NAME = 'demo1.jpeg'
 FOLDER_PATH = 'text_images'
 
+# Read original image
 with io.open(os.path.join(FOLDER_PATH, FILE_NAME), 'rb') as image_file:
     content = image_file.read()
 
@@ -169,3 +171,19 @@ words_df = pd.concat([words_df.word, merged_dicts_w_df, words_df.conf], axis=1)
 
 df['w'] = df[['x_1', 'x_2']].max(axis=1) - df[['x_3', 'x_4']].min(axis=1)
 df['h'] = df[['y_2', 'y_3']].max(axis=1) - df[['y_1', 'y_4']].min(axis=1)
+
+
+# -- WIDTH OF CHARACTERS -- #
+def score_width(df):
+    thin_chars = ['!', '(', ')', '[', ']', '-', '=', '+', ',', '.', '|',
+                  '{', '}', 't', 'i', 'f', 'l', ';', ':', "'", '"', '*']
+    normal_chars = ['@', '#', '$', '%', '^', '&', 'q', 'e', 'r', 'y', 'u',
+                    'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'z',
+                    'x', 'c', 'v', 'b', 'n', '/', '\\']
+    wide_chars = ['w', 'm']
+    df_thin = df[df['char'].isin(thin_chars)]
+    thin_w = df_thin.width
+    plt.hist(thin_w)
+
+
+print(score_width(df))
