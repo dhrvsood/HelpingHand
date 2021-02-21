@@ -53,7 +53,7 @@ const Home = () => {
           });
   
           // now navigate to insight page
-          history.push("/insight");
+          history.push('/insight');
         });
       };
 
@@ -69,8 +69,8 @@ const Home = () => {
   return (
     <div className="container">
         {/* <Header/> */}
-        <p className="header">Welcome to  <b>Helping Hand!</b> <span role="img">🖊</span></p>
-        <p>We use metrics and Artifical Intelligence to provide quantitative feedback on how to improve your handwriting.</p>
+        <p className="header">✍Welcome to  <b>Helping Hand!</b>✍</p>
+        <p>We Artifical Intelligence algorithms to analyze your writing and provide qualitative and quantitative feedback on how to improve your handwriting.</p>
         <h2 className="centerContent">Try it!</h2>
         <div className = "buttonGroup"> 
           <Button onClick={showCanvas} value = "Draw"></Button>
@@ -86,7 +86,7 @@ const Home = () => {
         </div>
         <Input fileUpload={fileUpload}/>
         <hr></hr>
-        <p>Built in 36 hours at SD Hacks 2021.</p>
+        <p>Built in 36 hours at SD Hacks 2021 by Cam, Chris, Ronak, and Dhruv.</p>
     </div>
   );
 };
