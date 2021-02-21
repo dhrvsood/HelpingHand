@@ -24,21 +24,26 @@ paras = response.full_text_annotation.pages[
 
 char_list = []
 bound_poly = []
+conf_scores = []
 
 for p in paras:
     for w in p.words:
+        print(w.confidence)
         for c in w.symbols:
             if 'detected_break' in c.property and \
                     c.property.detected_break.type_.name == 'SPACE':
                 char_list.append(c.text)
                 char_list.append('SP')
-                bound_poly.append(c.bounding_box)
-                bound_poly.append(c.bounding_box)
+                for i in range(2):
+                    bound_poly.append(c.bounding_box)
+                for i in range(2):
+                    conf_scores.append(c.confidence)
             else:
                 char_list.append(c.text)
                 bound_poly.append(c.bounding_box)
+                conf_scores.append(c.confidence)
 
-df = pd.DataFrame({'char': char_list, 'bound_poly': bound_poly})
+df = pd.DataFrame({'char': char_list, 'bound_poly': bound_poly, 'conf': conf_scores})
 
 
 def split_str(text):
@@ -84,4 +89,7 @@ def merge_dicts(df):
 
 merged_dicts = merge_dicts(df)
 merged_dicts_df = pd.DataFrame(merged_dicts)
-df = pd.concat([df.char, merged_dicts_df], axis=1)
+df = pd.concat([df.char, merged_dicts_df, df.conf], axis=1)
+
+# def hw_calc(df):
+#     avg_width =
