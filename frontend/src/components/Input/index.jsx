@@ -19,9 +19,6 @@ const Input = (props) => {
   const history = useHistory();
 
   const fileUpload = props.fileUpload;
-  // const selectFile = () => {
-  //   fileUpload.current.click();
-  // };
 
   // HELPER METHOD: convert the drawing
   const toBase64 = (file) => {
@@ -42,10 +39,7 @@ const Input = (props) => {
     // file was drawn
     else {
       const can = canvas.current.ctx.drawing.canvas;
-
-
       const img = new Image();
-      // img.backgroundImage = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.jrotherham.co.uk%2Fwp-content%2Fuploads%2F2019%2F08%2FAtlas-White_Slab.jpg&f=1&nofb=1";
       img.src = can.toDataURL('image/jpeg');
       // img.src = "data:image/jpg;" + can.toDataURL().substring(15);
       imageData = img.src;

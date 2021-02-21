@@ -296,6 +296,26 @@ try:  # ez error handling
             score_str += ' Great upper-case width consistency!'
         return score_str
 
+    # # -- LINE CONSISTENCY -- #
+    # def line_consistency(df):
+    #     # find first normal character
+    #     '''
+    #     If character is not y, g, p, q, j, create arbitrary line at average of bottom left coordinates of other characters, 
+    #     check if core of y, g, p, q, j fits on that line
+    #     '''
+    #     strange_chars = ['y', 'g', 'p', 'q', 'j']
+        
+    #     df_strange = df[df['char'].isin(strange_chars)]
+    #     df_normal = df[df['char'] - df_strange]
+
+    #     first_normal_char = df_normal[0]
+
+    #     # average of bottom left and bottom right vals
+
+
+
+
+
 
     # Make sure defaultValue.responseData matches
     # frontend/src/contexts/InsightContext.js
