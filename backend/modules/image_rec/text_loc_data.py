@@ -1,11 +1,13 @@
-import io
+import base64
+import json
 import math
 import os
+import re
+import sys
 
 import cv2
 import numpy as np
 import pandas as pd
-from deskew import determine_skew
 from google.cloud import vision
 from google.cloud.vision_v1 import types
 
@@ -13,20 +15,27 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'ServiceAccountToken.json'
 
 client = vision.ImageAnnotatorClient()
 
-# raw_data = sys.argv[1]
-# image_data = re.sub('^data:image/.+;base64,', '', raw_data)
+raw_data = sys.argv[1]
+image_data = re.sub('^data:image/.+;base64,', '', raw_data)
+
+with open("debugcommand.txt", "w") as file:
+    file.write(raw_data)
 
 FILE_NAME = 'demo1.jpeg'
 FOLDER_PATH = 'text_images'
 
 # Read original image
-with io.open(os.path.join(FOLDER_PATH, FILE_NAME), 'rb') as image_file:
-    content = image_file.read()
+# with io.open(os.path.join(FOLDER_PATH, FILE_NAME), 'rb') as image_file:
+#     content = image_file.read()
 
+content = base64.b64decode(image_data)
 image = types.Image(content=content)
 
-response = client.text_detection(image=image)
+with open("debugImage.png", "wb") as fh:  # saves to backend/debugImage.png
+    fh.write(content)
 
+response = client.text_detection(image=image)
+print(response)
 bound_text = response.text_annotations[0].bounding_poly
 bound_width = bound_text.vertices[2].x - bound_text.vertices[0].x
 bound_height = bound_text.vertices[2].y - bound_text.vertices[0].y
@@ -46,23 +55,23 @@ def deskew(img, theta, bkg):
         round(height)), int(round(width))), borderValue=bkg)
 
 
-img = cv2.imread(os.path.join(FOLDER_PATH, FILE_NAME))
-grayscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-angle = determine_skew(grayscale)
+# img = cv2.imread(os.path.join(FOLDER_PATH, FILE_NAME))
+# grayscale = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+# angle = determine_skew(grayscale)
 
 # Deskewed image
-rotated = deskew(img, angle, (0, 0, 0))
+# rotated = deskew(img, angle, (0, 0, 0))
 
-if bound_height > bound_width:
-    rotated = np.rot90(rotated)
+# if bound_height > bound_width:
+#     rotated = np.rot90(rotated)
+#
+# deskewed_fname = os.path.join(FOLDER_PATH, ('deskewed_' + FILE_NAME + '.png'))
+# cv2.imwrite(deskewed_fname, rotated)
+#
+# with io.open(deskewed_fname, 'rb') as image_file:
+#     content = image_file.read()
 
-deskewed_fname = os.path.join(FOLDER_PATH, ('deskewed_' + FILE_NAME + '.png'))
-cv2.imwrite(deskewed_fname, rotated)
-
-with io.open(deskewed_fname, 'rb') as image_file:
-    content = image_file.read()
-
-image = types.Image(content=content)
+# image = types.Image(content=content)
 response = client.text_detection(image=image)
 
 blocks = response.text_annotations[1:]
@@ -248,5 +257,7 @@ def eval_upper_letter_width():
     return score_str
 
 
-print(eval_lower_letter_width())
-print(eval_upper_letter_width())
+# print(eval_lower_letter_width())
+# print(eval_upper_letter_width())
+res = {'lower_eval': eval_lower_letter_width(), 'upper_eval': eval_upper_letter_width()}
+print(json.dumps(res))
