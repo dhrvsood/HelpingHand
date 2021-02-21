@@ -1,25 +1,29 @@
-import React, {useContext, useRef, useState} from "react";
+import React, { useContext, useRef, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
 import axios from "axios";
-import {config} from "../../config";
+import { config } from "../../config";
 import InsightContext from "../../contexts/InsightContext";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { NONAME } from "dns";
 
 // import "style.less";
 
-const Input = ({fileUpload}) => {
+const Input = (props) => {
   const canvas = useRef(null);
   const [insights, setInsights] = useState("");
   const [visible, setVisibility] = useState("none");
+  // const fileUpload = useRef(null);
+
   const [insightsCtx, setInsightsCtx] = useContext(InsightContext);
   let imageData;
   const history = useHistory();
 
+  const fileUpload = props.fileUpload;
+  // const selectFile = () => {
+  //   fileUpload.current.click();
+  // };
 
-  const selectFile = () => {
-    fileUpload.current.click();
-  };
-
+  // HELPER METHOD: convert the drawing
   const toBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -30,24 +34,31 @@ const Input = ({fileUpload}) => {
   };
 
   const getImageData = async () => {
-    if (fileUpload.current && fileUpload.current.files.length > 0) {
+    // if a file was uploaded 
+    if (fileUpload.current.files.length > 0) {
       const file = fileUpload.current.files[0];
       imageData = await toBase64(file);
-    } else {
+    } 
+    // file was drawn
+    else {
       const can = canvas.current.ctx.drawing.canvas;
+
+
       const img = new Image();
-      img.src = can.toDataURL();
+      // img.backgroundImage = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.jrotherham.co.uk%2Fwp-content%2Fuploads%2F2019%2F08%2FAtlas-White_Slab.jpg&f=1&nofb=1";
+      img.src = can.toDataURL('image/jpeg');
+      // img.src = "data:image/jpg;" + can.toDataURL().substring(15);
       imageData = img.src;
     }
+
     axios
       .post(`${config.apiUrl}/insight`, {
         data: imageData,
       })
       .then((response) => {
         // pass data to global insights context
-        console.log(response.data)
         setInsightsCtx({
-          responseData: JSON.parse(response.data),
+          responseData: response.data,
           image: imageData
         });
 

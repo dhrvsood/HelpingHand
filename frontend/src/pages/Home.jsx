@@ -37,6 +37,7 @@ const Home = () => {
             onChange={() => {}}
             ref={fileUpload}
           />
+          <img id="drawing"></img>
         </div>
         <Input fileUpload={fileUpload}/>
         <hr></hr>
