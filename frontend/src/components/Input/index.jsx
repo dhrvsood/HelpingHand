@@ -4,6 +4,7 @@ import axios from "axios";
 import { config } from "../../config";
 import InsightContext from "../../contexts/InsightContext";
 import { useHistory } from "react-router-dom";
+import { NONAME } from "dns";
 
 // import "style.less";
 
@@ -57,12 +58,13 @@ const Input = () => {
   };
 
   return (
-    <div>
+    <div className = "input" id="input_comp" style={{ display: 'none' }}>
       <CanvasDraw
         ref={canvas}
-        canvasWidth={window.innerWidth * 0.8}
+        canvasWidth={'100%'}
         brushRadius={1}
         lazyRadius={1}
+        style={{ }}
       />
       <div className="toolbar">
         <button
@@ -74,14 +76,7 @@ const Input = () => {
         >
           Clear
         </button>
-        <button onClick={selectFile}>Upload a sample instead</button>
-        <input
-          style={{ display: "none" }}
-          type="file"
-          onChange={() => {}}
-          ref={fileUpload}
-        />
-        <button onClick={getImageData}>Judge Me</button>
+        <button onClick={getImageData}>Judge Me!</button>
       </div>
 
       <h1 style={{ display: visible }}>Backend Response</h1>

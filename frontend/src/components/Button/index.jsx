@@ -4,7 +4,7 @@ import style from "./style.less"
 const Button = (props) => {
   return (
     <div>
-        <button className = "button">{props.value}</button>
+        <button onClick={props.onClick}>{props.value}</button>
     </div>
   );
 };

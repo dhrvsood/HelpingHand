@@ -2,14 +2,13 @@ import React, { useRef, useState, useContext } from "react";
 import "./style.less";
 
 // components
-import Header from "../components/Header";
 import InsightContext from "../contexts/InsightContext";
 
 const Insight = () => {
   const [insights] = useContext(InsightContext);
   return (
-    <div>
-        <Header/>
+    <div className="container">
+        <p className="header">Insights</p>
         <pre>
           {JSON.stringify(insights)}
         </pre>
