@@ -1,16 +1,21 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import "./style.less";
 
 // components
 import Header from "../components/Header";
-import Input from "../components/Input";
+import InsightContext from "../contexts/InsightContext";
 
-const Home = () => {
+const Insight = () => {
+  const [insights] = useContext(InsightContext);
   return (
     <div>
         <Header/>
+        <pre>
+          {JSON.stringify(insights)}
+        </pre>
+        <img src={insights.image}/>
     </div>
   );
 };
 
-export default Home;
+export default Insight;
