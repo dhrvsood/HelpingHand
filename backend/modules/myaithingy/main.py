@@ -7,10 +7,11 @@ import json
 raw_data = sys.argv[1]
 image_data = re.sub('^data:image/.+;base64,', '', raw_data)
 
-# do something with image_data now (its just an image)
+image = base64.b64decode(image_data)
+# do something with image now (its just an image)
 
 with open("debugImage.png", "wb") as fh: # saves to backend/debugImage.png
-    fh.write(base64.b64decode(image_data))
+    fh.write(image)
 
 responseData = {
     "handwritingScore" : 90,

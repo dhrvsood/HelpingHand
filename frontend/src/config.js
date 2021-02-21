@@ -1,3 +1,4 @@
+const development = true;
 export const config = {
-  apiUrl: "http://localhost:4000"
+  apiUrl: development ? "http://localhost:4000" : window.location.origin
 };
