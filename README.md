@@ -1,17 +1,16 @@
-# yourhandwritingsucks.com
+# Helping Hand
 
 
 ### How to setup
 
-1. Get Node / Yarn
+1. Get Node
 2. Clone the Repo
-3. Run the stuff
-4. Profit???
+3. Run usn
 
 ```bash
-git clone https://github.com/trulyronak/yourhandwritingsucks
-cd yourhandwritingsucks
-yarn setup # installs dependencies
+git clone https://github.com/dhrvsood/HelpingHand
+cd HelpingHand
+npm install # installs dependencies
 yarn start # runs the webserver + backend
 ```
 
