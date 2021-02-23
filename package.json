@@ -1,0 +1,22 @@
+{
+  "name": "yourhandwritingsucks",
+  "version": "1.0.0",
+  "description": "Improve your handwriting",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo Testing Not Implemented",
+    "start": "yarn --cwd backend start & yarn --cwd frontend start",
+    "setup" : "yarn --cwd backend install && yarn --cwd frontend install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trulyronak/yourhandwritingsucks"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {}
+}
