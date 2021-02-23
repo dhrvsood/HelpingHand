@@ -1,6 +1,8 @@
 import React, { useRef, useState, useContext } from "react";
 import Plot from 'react-plotly.js';
+
 // import "./style.less";
+
 
 // components
 import InsightContext from "../contexts/InsightContext";
@@ -8,6 +10,7 @@ import Graph from "../components/Graph";
 
 const Insight = () => {
   const [insights] = useContext(InsightContext);
+
   var arr = [];
   for (var i = 0; i < 500; i ++) {
     arr[i] = Math.random();
@@ -26,6 +29,7 @@ const Insight = () => {
         {/* <Graph type="" data="" title="" className="grid-item"></Graph>
         <Graph type="" data="" title="" className="grid-item"></Graph> */}
       </div>
+
     </div>
   );
 };

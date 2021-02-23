@@ -20,7 +20,7 @@
     "react-scripts": "^2.1.8"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "react-scripts --max_old_space_size=8192 start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
