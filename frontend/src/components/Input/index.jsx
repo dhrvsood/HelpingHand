@@ -8,20 +8,19 @@ import { NONAME } from "dns";
 
 // import "style.less";
 
-const Input = () => {
+const Input = (props) => {
   const canvas = useRef(null);
   const [insights, setInsights] = useState("");
   const [visible, setVisibility] = useState("none");
-  const fileUpload = useRef(null);
+  // const fileUpload = useRef(null);
+
   const [insightsCtx, setInsightsCtx] = useContext(InsightContext);
   let imageData;
   const history = useHistory();
 
+  const fileUpload = props.fileUpload;
 
-  const selectFile = () => {
-    fileUpload.current.click();
-  };
-
+  // HELPER METHOD: convert the drawing
   const toBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -32,15 +31,20 @@ const Input = () => {
   };
 
   const getImageData = async () => {
+    // if a file was uploaded 
     if (fileUpload.current.files.length > 0) {
       const file = fileUpload.current.files[0];
       imageData = await toBase64(file);
-    } else {
+    } 
+    // file was drawn
+    else {
       const can = canvas.current.ctx.drawing.canvas;
       const img = new Image();
-      img.src = can.toDataURL();
+      img.src = can.toDataURL('image/jpeg');
+      // img.src = "data:image/jpg;" + can.toDataURL().substring(15);
       imageData = img.src;
     }
+
     axios
       .post(`${config.apiUrl}/insight`, {
         data: imageData,
