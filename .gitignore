@@ -1,4 +1,7 @@
+package.json
+package-lock.json
 node_modules
 backend/data
+yarn.lock
 .env
 venv/

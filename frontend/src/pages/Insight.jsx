@@ -8,6 +8,7 @@ import Graph from "../components/Graph";
 
 const Insight = () => {
   const [insights] = useContext(InsightContext);
+
   var arr = [];
   for (var i = 0; i < 500; i ++) {
     arr[i] = Math.random();
